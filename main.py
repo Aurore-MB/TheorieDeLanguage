@@ -5,7 +5,6 @@ reserved = {
     'print': 'PRINT',
     'if': 'IF',
     'else': 'ELSE',
-    'elif': 'ELIF',
     'for': 'FOR',
     'while': 'WHILE'
 }
@@ -17,18 +16,25 @@ reserved = {
 tokens = [
     'NUMBER','NAME','PLUS', 'MINUS', 'TIMES', 'DIVIDE',
     'EGAL','LPAREN', 'RPAREN','SEMICOLON',
-    'EGALEGAL', 'INF', 'SUP', 'INFEG', 'SUPFEG','LACC', 'RACC'
+    'EGALEGAL', 'INF', 'SUP', 'INFEG', 'SUPFEG','LACC', 'RACC',
+    'PLUSPLUS','MINUSMINUS','PLUSEGAL','MINUSEGAL','TIMESEGAL','DIVIDEEGAL'
 ]+ list(reserved.values())
 
+t_PLUSPLUS  = r'\+\+'
+t_MINUSMINUS = r'--'
+t_PLUSEGAL  = r'\+='
+t_MINUSEGAL = r'-='
+t_TIMESEGAL = r'\*='
+t_DIVIDEEGAL = r'/='
 t_PLUS      = r'\+'
 t_MINUS     = r'-'
 t_TIMES     = r'\*'
 t_DIVIDE    = r'/'
-t_EGAL    = r'='
+t_EGAL      = r'='
 t_LPAREN    = r'\('
 t_RPAREN    = r'\)'
 t_SEMICOLON = r';'
-t_EGALEGAL   = r'\=='
+t_EGALEGAL  = r'\=='
 t_INF       = r'<'
 t_SUP       = r'>'
 t_INFEG     = r'<='
@@ -36,6 +42,7 @@ t_SUPFEG    = r'>='
 t_LACC      = r'\{'
 t_RACC      = r'\}'
 t_ignore    = ' \t'
+
 
 def t_NAME(t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'
@@ -121,6 +128,7 @@ def p_statement_group(p):
     'statement : LACC bloc RACC'
     p[0] = p[2]
 
+#Les boucles
 def p_statement_if(p):
     '''statement : IF LPAREN expression RPAREN statement 
     | IF LPAREN expression RPAREN statement ELSE statement'''
@@ -137,6 +145,7 @@ def p_statement_for(p):
     'statement : FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN statement'
     p[0] = ('for', p[3], p[5], p[7], p[9])
 
+#== et < et > et <= et >=
 def p_expression_compare_egalegal(p):
     'expression : expression EGALEGAL expression'
     p[0] = ('==', p[1], p[3])
@@ -157,6 +166,32 @@ def p_expression_compare_supfeg(p):
     'expression : expression SUPFEG expression'
     p[0] = ('>=', p[1], p[3])
 
+#(++ et --)
+def p_statement_plusplus(p):
+    'statement : NAME PLUSPLUS'
+    p[0] = ('egal', p[1], ('+', ('var', p[1]),1))
+
+def p_statement_minusminus(p):
+    'statement : NAME MINUSMINUS'
+    p[0] = ('egal', p[1],('-', ('var', p[1]),1))
+    
+#(+= et -= et *= et /=)
+def p_statement_plusegal(p):
+    'statement : NAME PLUSEGAL expression'
+    p[0] = ('egal', p[1],('+', ('var',p[1]), p[3]))
+
+def p_statement_minusegal(p):
+    'statement : NAME MINUSEGAL expression'
+    p[0] = ('egal', p[1],('-', ('var',p[1]),p[3]))
+
+def p_statement_timesegal(p):
+    'statement : NAME TIMESEGAL expression'
+    p[0] = ('egal', p[1],('*', ('var',p[1]),p[3]))
+    
+def p_statement_divideegal(p):
+    'statement : NAME DIVIDEEGAL expression'
+    p[0] = ('egal', p[1], ('/', ('var',p[1]), p[3]))
+    
     
 
 #---------
@@ -215,10 +250,7 @@ def evalExpr(t):
         if t[0] == '<': return evalExpr(t[1]) < evalExpr(t[2])
         if t[0] == '>': return evalExpr(t[1]) > evalExpr(t[2])
         if t[0] == '<=': return evalExpr(t[1]) <= evalExpr(t[2])
-        if t[0] == '>=': return evalExpr(t[1]) >= evalExpr(t[2])
-        
-        
-    return 0
+        if t[0] == '>=': return evalExpr(t[1]) >= evalExpr(t[2])  
 
 #--------------
 #--TEST CODE---
@@ -232,14 +264,24 @@ s3='''x=4;
     for(i=0 ;i<4 ;i=i+1){
         print(i*i);
     };'''
+s4 = 'x=10; x++; print(x); x+=9; print(x);'
+
 parser = yacc.yacc()
 print("TEST 1 : ", s1) 
 ast = parser.parse(s1)
 printTreeGraph(ast)
 evalInst(ast)
 
-
+variables = {}
 print("TEST 3 : ", s3)
 ast = parser.parse(s3)
 printTreeGraph(ast)
 evalInst(ast)
+
+variables = {}
+print("TEST 4 : ", s4)
+ast = parser.parse(s4)
+printTreeGraph(ast)
+evalInst(ast)
+
+

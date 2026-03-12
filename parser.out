@@ -1,9 +1,5 @@
 Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
-Unused terminals:
-
-    ELIF
-
 Grammar
 
 Rule 0     S' -> start
@@ -29,13 +25,19 @@ Rule 19    expression -> expression INF expression
 Rule 20    expression -> expression SUP expression
 Rule 21    expression -> expression INFEG expression
 Rule 22    expression -> expression SUPFEG expression
+Rule 23    statement -> NAME PLUSPLUS
+Rule 24    statement -> NAME MINUSMINUS
+Rule 25    statement -> NAME PLUSEGAL expression
+Rule 26    statement -> NAME MINUSEGAL expression
+Rule 27    statement -> NAME TIMESEGAL expression
+Rule 28    statement -> NAME DIVIDEEGAL expression
 
 Terminals, with rules where they appear
 
 DIVIDE               : 9
+DIVIDEEGAL           : 28
 EGAL                 : 4
 EGALEGAL             : 18
-ELIF                 : 
 ELSE                 : 15
 FOR                  : 17
 IF                   : 14 15
@@ -44,9 +46,13 @@ INFEG                : 21
 LACC                 : 13
 LPAREN               : 5 10 14 15 16 17
 MINUS                : 7
-NAME                 : 4 12
+MINUSEGAL            : 26
+MINUSMINUS           : 24
+NAME                 : 4 12 23 24 25 26 27 28
 NUMBER               : 11
 PLUS                 : 6
+PLUSEGAL             : 25
+PLUSPLUS             : 23
 PRINT                : 5
 RACC                 : 13
 RPAREN               : 5 10 14 15 16 17
@@ -54,13 +60,14 @@ SEMICOLON            : 2 3 17 17
 SUP                  : 20
 SUPFEG               : 22
 TIMES                : 8
+TIMESEGAL            : 27
 WHILE                : 16
 error                : 
 
 Nonterminals, with rules where they appear
 
 bloc                 : 1 2 13
-expression           : 4 5 6 6 7 7 8 8 9 9 10 14 15 16 17 18 18 19 19 20 20 21 21 22 22
+expression           : 4 5 6 6 7 7 8 8 9 9 10 14 15 16 17 18 18 19 19 20 20 21 21 22 22 25 26 27 28
 start                : 0
 statement            : 2 3 14 15 15 16 17 17 17
 
@@ -79,6 +86,12 @@ state 0
     (15) statement -> . IF LPAREN expression RPAREN statement ELSE statement
     (16) statement -> . WHILE LPAREN expression RPAREN statement
     (17) statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN statement
+    (23) statement -> . NAME PLUSPLUS
+    (24) statement -> . NAME MINUSMINUS
+    (25) statement -> . NAME PLUSEGAL expression
+    (26) statement -> . NAME MINUSEGAL expression
+    (27) statement -> . NAME TIMESEGAL expression
+    (28) statement -> . NAME DIVIDEEGAL expression
 
     NAME            shift and go to state 4
     PRINT           shift and go to state 5
@@ -108,6 +121,12 @@ state 2
     (15) statement -> . IF LPAREN expression RPAREN statement ELSE statement
     (16) statement -> . WHILE LPAREN expression RPAREN statement
     (17) statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN statement
+    (23) statement -> . NAME PLUSPLUS
+    (24) statement -> . NAME MINUSMINUS
+    (25) statement -> . NAME PLUSEGAL expression
+    (26) statement -> . NAME MINUSEGAL expression
+    (27) statement -> . NAME TIMESEGAL expression
+    (28) statement -> . NAME DIVIDEEGAL expression
 
     $end            reduce using rule 1 (start -> bloc .)
     NAME            shift and go to state 4
@@ -129,15 +148,27 @@ state 3
 state 4
 
     (4) statement -> NAME . EGAL expression
+    (23) statement -> NAME . PLUSPLUS
+    (24) statement -> NAME . MINUSMINUS
+    (25) statement -> NAME . PLUSEGAL expression
+    (26) statement -> NAME . MINUSEGAL expression
+    (27) statement -> NAME . TIMESEGAL expression
+    (28) statement -> NAME . DIVIDEEGAL expression
 
     EGAL            shift and go to state 12
+    PLUSPLUS        shift and go to state 13
+    MINUSMINUS      shift and go to state 14
+    PLUSEGAL        shift and go to state 15
+    MINUSEGAL       shift and go to state 16
+    TIMESEGAL       shift and go to state 17
+    DIVIDEEGAL      shift and go to state 18
 
 
 state 5
 
     (5) statement -> PRINT . LPAREN expression RPAREN
 
-    LPAREN          shift and go to state 13
+    LPAREN          shift and go to state 19
 
 
 state 6
@@ -152,6 +183,12 @@ state 6
     (15) statement -> . IF LPAREN expression RPAREN statement ELSE statement
     (16) statement -> . WHILE LPAREN expression RPAREN statement
     (17) statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN statement
+    (23) statement -> . NAME PLUSPLUS
+    (24) statement -> . NAME MINUSMINUS
+    (25) statement -> . NAME PLUSEGAL expression
+    (26) statement -> . NAME MINUSEGAL expression
+    (27) statement -> . NAME TIMESEGAL expression
+    (28) statement -> . NAME DIVIDEEGAL expression
 
     NAME            shift and go to state 4
     PRINT           shift and go to state 5
@@ -160,7 +197,7 @@ state 6
     WHILE           shift and go to state 8
     FOR             shift and go to state 9
 
-    bloc                           shift and go to state 14
+    bloc                           shift and go to state 20
     statement                      shift and go to state 3
 
 state 7
@@ -168,28 +205,28 @@ state 7
     (14) statement -> IF . LPAREN expression RPAREN statement
     (15) statement -> IF . LPAREN expression RPAREN statement ELSE statement
 
-    LPAREN          shift and go to state 15
+    LPAREN          shift and go to state 21
 
 
 state 8
 
     (16) statement -> WHILE . LPAREN expression RPAREN statement
 
-    LPAREN          shift and go to state 16
+    LPAREN          shift and go to state 22
 
 
 state 9
 
     (17) statement -> FOR . LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN statement
 
-    LPAREN          shift and go to state 17
+    LPAREN          shift and go to state 23
 
 
 state 10
 
     (2) bloc -> bloc statement . SEMICOLON
 
-    SEMICOLON       shift and go to state 18
+    SEMICOLON       shift and go to state 24
 
 
 state 11
@@ -222,13 +259,119 @@ state 12
     (21) expression -> . expression INFEG expression
     (22) expression -> . expression SUPFEG expression
 
-    LPAREN          shift and go to state 21
-    NUMBER          shift and go to state 22
-    NAME            shift and go to state 19
+    LPAREN          shift and go to state 27
+    NUMBER          shift and go to state 28
+    NAME            shift and go to state 25
 
-    expression                     shift and go to state 20
+    expression                     shift and go to state 26
 
 state 13
+
+    (23) statement -> NAME PLUSPLUS .
+
+    SEMICOLON       reduce using rule 23 (statement -> NAME PLUSPLUS .)
+    ELSE            reduce using rule 23 (statement -> NAME PLUSPLUS .)
+    RPAREN          reduce using rule 23 (statement -> NAME PLUSPLUS .)
+
+
+state 14
+
+    (24) statement -> NAME MINUSMINUS .
+
+    SEMICOLON       reduce using rule 24 (statement -> NAME MINUSMINUS .)
+    ELSE            reduce using rule 24 (statement -> NAME MINUSMINUS .)
+    RPAREN          reduce using rule 24 (statement -> NAME MINUSMINUS .)
+
+
+state 15
+
+    (25) statement -> NAME PLUSEGAL . expression
+    (6) expression -> . expression PLUS expression
+    (7) expression -> . expression MINUS expression
+    (8) expression -> . expression TIMES expression
+    (9) expression -> . expression DIVIDE expression
+    (10) expression -> . LPAREN expression RPAREN
+    (11) expression -> . NUMBER
+    (12) expression -> . NAME
+    (18) expression -> . expression EGALEGAL expression
+    (19) expression -> . expression INF expression
+    (20) expression -> . expression SUP expression
+    (21) expression -> . expression INFEG expression
+    (22) expression -> . expression SUPFEG expression
+
+    LPAREN          shift and go to state 27
+    NUMBER          shift and go to state 28
+    NAME            shift and go to state 25
+
+    expression                     shift and go to state 29
+
+state 16
+
+    (26) statement -> NAME MINUSEGAL . expression
+    (6) expression -> . expression PLUS expression
+    (7) expression -> . expression MINUS expression
+    (8) expression -> . expression TIMES expression
+    (9) expression -> . expression DIVIDE expression
+    (10) expression -> . LPAREN expression RPAREN
+    (11) expression -> . NUMBER
+    (12) expression -> . NAME
+    (18) expression -> . expression EGALEGAL expression
+    (19) expression -> . expression INF expression
+    (20) expression -> . expression SUP expression
+    (21) expression -> . expression INFEG expression
+    (22) expression -> . expression SUPFEG expression
+
+    LPAREN          shift and go to state 27
+    NUMBER          shift and go to state 28
+    NAME            shift and go to state 25
+
+    expression                     shift and go to state 30
+
+state 17
+
+    (27) statement -> NAME TIMESEGAL . expression
+    (6) expression -> . expression PLUS expression
+    (7) expression -> . expression MINUS expression
+    (8) expression -> . expression TIMES expression
+    (9) expression -> . expression DIVIDE expression
+    (10) expression -> . LPAREN expression RPAREN
+    (11) expression -> . NUMBER
+    (12) expression -> . NAME
+    (18) expression -> . expression EGALEGAL expression
+    (19) expression -> . expression INF expression
+    (20) expression -> . expression SUP expression
+    (21) expression -> . expression INFEG expression
+    (22) expression -> . expression SUPFEG expression
+
+    LPAREN          shift and go to state 27
+    NUMBER          shift and go to state 28
+    NAME            shift and go to state 25
+
+    expression                     shift and go to state 31
+
+state 18
+
+    (28) statement -> NAME DIVIDEEGAL . expression
+    (6) expression -> . expression PLUS expression
+    (7) expression -> . expression MINUS expression
+    (8) expression -> . expression TIMES expression
+    (9) expression -> . expression DIVIDE expression
+    (10) expression -> . LPAREN expression RPAREN
+    (11) expression -> . NUMBER
+    (12) expression -> . NAME
+    (18) expression -> . expression EGALEGAL expression
+    (19) expression -> . expression INF expression
+    (20) expression -> . expression SUP expression
+    (21) expression -> . expression INFEG expression
+    (22) expression -> . expression SUPFEG expression
+
+    LPAREN          shift and go to state 27
+    NUMBER          shift and go to state 28
+    NAME            shift and go to state 25
+
+    expression                     shift and go to state 32
+
+state 19
 
     (5) statement -> PRINT LPAREN . expression RPAREN
     (6) expression -> . expression PLUS expression
@@ -244,13 +387,13 @@ state 13
     (21) expression -> . expression INFEG expression
     (22) expression -> . expression SUPFEG expression
 
-    LPAREN          shift and go to state 21
-    NUMBER          shift and go to state 22
-    NAME            shift and go to state 19
+    LPAREN          shift and go to state 27
+    NUMBER          shift and go to state 28
+    NAME            shift and go to state 25
 
-    expression                     shift and go to state 23
+    expression                     shift and go to state 33
 
-state 14
+state 20
 
     (13) statement -> LACC bloc . RACC
     (2) bloc -> bloc . statement SEMICOLON
@@ -261,8 +404,14 @@ state 14
     (15) statement -> . IF LPAREN expression RPAREN statement ELSE statement
     (16) statement -> . WHILE LPAREN expression RPAREN statement
     (17) statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN statement
+    (23) statement -> . NAME PLUSPLUS
+    (24) statement -> . NAME MINUSMINUS
+    (25) statement -> . NAME PLUSEGAL expression
+    (26) statement -> . NAME MINUSEGAL expression
+    (27) statement -> . NAME TIMESEGAL expression
+    (28) statement -> . NAME DIVIDEEGAL expression
 
-    RACC            shift and go to state 24
+    RACC            shift and go to state 34
     NAME            shift and go to state 4
     PRINT           shift and go to state 5
     LACC            shift and go to state 6
@@ -272,7 +421,7 @@ state 14
 
     statement                      shift and go to state 10
 
-state 15
+state 21
 
     (14) statement -> IF LPAREN . expression RPAREN statement
     (15) statement -> IF LPAREN . expression RPAREN statement ELSE statement
@@ -289,13 +438,13 @@ state 15
     (21) expression -> . expression INFEG expression
     (22) expression -> . expression SUPFEG expression
 
-    LPAREN          shift and go to state 21
-    NUMBER          shift and go to state 22
-    NAME            shift and go to state 19
+    LPAREN          shift and go to state 27
+    NUMBER          shift and go to state 28
+    NAME            shift and go to state 25
 
-    expression                     shift and go to state 25
+    expression                     shift and go to state 35
 
-state 16
+state 22
 
     (16) statement -> WHILE LPAREN . expression RPAREN statement
     (6) expression -> . expression PLUS expression
@@ -311,13 +460,13 @@ state 16
     (21) expression -> . expression INFEG expression
     (22) expression -> . expression SUPFEG expression
 
-    LPAREN          shift and go to state 21
-    NUMBER          shift and go to state 22
-    NAME            shift and go to state 19
+    LPAREN          shift and go to state 27
+    NUMBER          shift and go to state 28
+    NAME            shift and go to state 25
 
-    expression                     shift and go to state 26
+    expression                     shift and go to state 36
 
-state 17
+state 23
 
     (17) statement -> FOR LPAREN . statement SEMICOLON expression SEMICOLON statement RPAREN statement
     (4) statement -> . NAME EGAL expression
@@ -327,6 +476,12 @@ state 17
     (15) statement -> . IF LPAREN expression RPAREN statement ELSE statement
     (16) statement -> . WHILE LPAREN expression RPAREN statement
     (17) statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN statement
+    (23) statement -> . NAME PLUSPLUS
+    (24) statement -> . NAME MINUSMINUS
+    (25) statement -> . NAME PLUSEGAL expression
+    (26) statement -> . NAME MINUSEGAL expression
+    (27) statement -> . NAME TIMESEGAL expression
+    (28) statement -> . NAME DIVIDEEGAL expression
 
     NAME            shift and go to state 4
     PRINT           shift and go to state 5
@@ -335,9 +490,9 @@ state 17
     WHILE           shift and go to state 8
     FOR             shift and go to state 9
 
-    statement                      shift and go to state 27
+    statement                      shift and go to state 37
 
-state 18
+state 24
 
     (2) bloc -> bloc statement SEMICOLON .
 
@@ -351,7 +506,7 @@ state 18
     RACC            reduce using rule 2 (bloc -> bloc statement SEMICOLON .)
 
 
-state 19
+state 25
 
     (12) expression -> NAME .
 
@@ -369,7 +524,7 @@ state 19
     RPAREN          reduce using rule 12 (expression -> NAME .)
 
 
-state 20
+state 26
 
     (4) statement -> NAME EGAL expression .
     (6) expression -> expression . PLUS expression
@@ -385,18 +540,18 @@ state 20
     SEMICOLON       reduce using rule 4 (statement -> NAME EGAL expression .)
     ELSE            reduce using rule 4 (statement -> NAME EGAL expression .)
     RPAREN          reduce using rule 4 (statement -> NAME EGAL expression .)
-    PLUS            shift and go to state 28
-    MINUS           shift and go to state 29
-    TIMES           shift and go to state 30
-    DIVIDE          shift and go to state 31
-    EGALEGAL        shift and go to state 32
-    INF             shift and go to state 33
-    SUP             shift and go to state 34
-    INFEG           shift and go to state 35
-    SUPFEG          shift and go to state 36
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    EGALEGAL        shift and go to state 42
+    INF             shift and go to state 43
+    SUP             shift and go to state 44
+    INFEG           shift and go to state 45
+    SUPFEG          shift and go to state 46
 
 
-state 21
+state 27
 
     (10) expression -> LPAREN . expression RPAREN
     (6) expression -> . expression PLUS expression
@@ -412,13 +567,13 @@ state 21
     (21) expression -> . expression INFEG expression
     (22) expression -> . expression SUPFEG expression
 
-    LPAREN          shift and go to state 21
-    NUMBER          shift and go to state 22
-    NAME            shift and go to state 19
+    LPAREN          shift and go to state 27
+    NUMBER          shift and go to state 28
+    NAME            shift and go to state 25
 
-    expression                     shift and go to state 37
+    expression                     shift and go to state 47
 
-state 22
+state 28
 
     (11) expression -> NUMBER .
 
@@ -436,7 +591,115 @@ state 22
     RPAREN          reduce using rule 11 (expression -> NUMBER .)
 
 
-state 23
+state 29
+
+    (25) statement -> NAME PLUSEGAL expression .
+    (6) expression -> expression . PLUS expression
+    (7) expression -> expression . MINUS expression
+    (8) expression -> expression . TIMES expression
+    (9) expression -> expression . DIVIDE expression
+    (18) expression -> expression . EGALEGAL expression
+    (19) expression -> expression . INF expression
+    (20) expression -> expression . SUP expression
+    (21) expression -> expression . INFEG expression
+    (22) expression -> expression . SUPFEG expression
+
+    SEMICOLON       reduce using rule 25 (statement -> NAME PLUSEGAL expression .)
+    ELSE            reduce using rule 25 (statement -> NAME PLUSEGAL expression .)
+    RPAREN          reduce using rule 25 (statement -> NAME PLUSEGAL expression .)
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    EGALEGAL        shift and go to state 42
+    INF             shift and go to state 43
+    SUP             shift and go to state 44
+    INFEG           shift and go to state 45
+    SUPFEG          shift and go to state 46
+
+
+state 30
+
+    (26) statement -> NAME MINUSEGAL expression .
+    (6) expression -> expression . PLUS expression
+    (7) expression -> expression . MINUS expression
+    (8) expression -> expression . TIMES expression
+    (9) expression -> expression . DIVIDE expression
+    (18) expression -> expression . EGALEGAL expression
+    (19) expression -> expression . INF expression
+    (20) expression -> expression . SUP expression
+    (21) expression -> expression . INFEG expression
+    (22) expression -> expression . SUPFEG expression
+
+    SEMICOLON       reduce using rule 26 (statement -> NAME MINUSEGAL expression .)
+    ELSE            reduce using rule 26 (statement -> NAME MINUSEGAL expression .)
+    RPAREN          reduce using rule 26 (statement -> NAME MINUSEGAL expression .)
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    EGALEGAL        shift and go to state 42
+    INF             shift and go to state 43
+    SUP             shift and go to state 44
+    INFEG           shift and go to state 45
+    SUPFEG          shift and go to state 46
+
+
+state 31
+
+    (27) statement -> NAME TIMESEGAL expression .
+    (6) expression -> expression . PLUS expression
+    (7) expression -> expression . MINUS expression
+    (8) expression -> expression . TIMES expression
+    (9) expression -> expression . DIVIDE expression
+    (18) expression -> expression . EGALEGAL expression
+    (19) expression -> expression . INF expression
+    (20) expression -> expression . SUP expression
+    (21) expression -> expression . INFEG expression
+    (22) expression -> expression . SUPFEG expression
+
+    SEMICOLON       reduce using rule 27 (statement -> NAME TIMESEGAL expression .)
+    ELSE            reduce using rule 27 (statement -> NAME TIMESEGAL expression .)
+    RPAREN          reduce using rule 27 (statement -> NAME TIMESEGAL expression .)
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    EGALEGAL        shift and go to state 42
+    INF             shift and go to state 43
+    SUP             shift and go to state 44
+    INFEG           shift and go to state 45
+    SUPFEG          shift and go to state 46
+
+
+state 32
+
+    (28) statement -> NAME DIVIDEEGAL expression .
+    (6) expression -> expression . PLUS expression
+    (7) expression -> expression . MINUS expression
+    (8) expression -> expression . TIMES expression
+    (9) expression -> expression . DIVIDE expression
+    (18) expression -> expression . EGALEGAL expression
+    (19) expression -> expression . INF expression
+    (20) expression -> expression . SUP expression
+    (21) expression -> expression . INFEG expression
+    (22) expression -> expression . SUPFEG expression
+
+    SEMICOLON       reduce using rule 28 (statement -> NAME DIVIDEEGAL expression .)
+    ELSE            reduce using rule 28 (statement -> NAME DIVIDEEGAL expression .)
+    RPAREN          reduce using rule 28 (statement -> NAME DIVIDEEGAL expression .)
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    EGALEGAL        shift and go to state 42
+    INF             shift and go to state 43
+    SUP             shift and go to state 44
+    INFEG           shift and go to state 45
+    SUPFEG          shift and go to state 46
+
+
+state 33
 
     (5) statement -> PRINT LPAREN expression . RPAREN
     (6) expression -> expression . PLUS expression
@@ -449,19 +712,19 @@ state 23
     (21) expression -> expression . INFEG expression
     (22) expression -> expression . SUPFEG expression
 
-    RPAREN          shift and go to state 38
-    PLUS            shift and go to state 28
-    MINUS           shift and go to state 29
-    TIMES           shift and go to state 30
-    DIVIDE          shift and go to state 31
-    EGALEGAL        shift and go to state 32
-    INF             shift and go to state 33
-    SUP             shift and go to state 34
-    INFEG           shift and go to state 35
-    SUPFEG          shift and go to state 36
+    RPAREN          shift and go to state 48
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    EGALEGAL        shift and go to state 42
+    INF             shift and go to state 43
+    SUP             shift and go to state 44
+    INFEG           shift and go to state 45
+    SUPFEG          shift and go to state 46
 
 
-state 24
+state 34
 
     (13) statement -> LACC bloc RACC .
 
@@ -470,7 +733,7 @@ state 24
     RPAREN          reduce using rule 13 (statement -> LACC bloc RACC .)
 
 
-state 25
+state 35
 
     (14) statement -> IF LPAREN expression . RPAREN statement
     (15) statement -> IF LPAREN expression . RPAREN statement ELSE statement
@@ -484,19 +747,19 @@ state 25
     (21) expression -> expression . INFEG expression
     (22) expression -> expression . SUPFEG expression
 
-    RPAREN          shift and go to state 39
-    PLUS            shift and go to state 28
-    MINUS           shift and go to state 29
-    TIMES           shift and go to state 30
-    DIVIDE          shift and go to state 31
-    EGALEGAL        shift and go to state 32
-    INF             shift and go to state 33
-    SUP             shift and go to state 34
-    INFEG           shift and go to state 35
-    SUPFEG          shift and go to state 36
+    RPAREN          shift and go to state 49
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    EGALEGAL        shift and go to state 42
+    INF             shift and go to state 43
+    SUP             shift and go to state 44
+    INFEG           shift and go to state 45
+    SUPFEG          shift and go to state 46
 
 
-state 26
+state 36
 
     (16) statement -> WHILE LPAREN expression . RPAREN statement
     (6) expression -> expression . PLUS expression
@@ -509,26 +772,26 @@ state 26
     (21) expression -> expression . INFEG expression
     (22) expression -> expression . SUPFEG expression
 
-    RPAREN          shift and go to state 40
-    PLUS            shift and go to state 28
-    MINUS           shift and go to state 29
-    TIMES           shift and go to state 30
-    DIVIDE          shift and go to state 31
-    EGALEGAL        shift and go to state 32
-    INF             shift and go to state 33
-    SUP             shift and go to state 34
-    INFEG           shift and go to state 35
-    SUPFEG          shift and go to state 36
+    RPAREN          shift and go to state 50
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    EGALEGAL        shift and go to state 42
+    INF             shift and go to state 43
+    SUP             shift and go to state 44
+    INFEG           shift and go to state 45
+    SUPFEG          shift and go to state 46
 
 
-state 27
+state 37
 
     (17) statement -> FOR LPAREN statement . SEMICOLON expression SEMICOLON statement RPAREN statement
 
-    SEMICOLON       shift and go to state 41
+    SEMICOLON       shift and go to state 51
 
 
-state 28
+state 38
 
     (6) expression -> expression PLUS . expression
     (6) expression -> . expression PLUS expression
@@ -544,13 +807,13 @@ state 28
     (21) expression -> . expression INFEG expression
     (22) expression -> . expression SUPFEG expression
 
-    LPAREN          shift and go to state 21
-    NUMBER          shift and go to state 22
-    NAME            shift and go to state 19
+    LPAREN          shift and go to state 27
+    NUMBER          shift and go to state 28
+    NAME            shift and go to state 25
 
-    expression                     shift and go to state 42
+    expression                     shift and go to state 52
 
-state 29
+state 39
 
     (7) expression -> expression MINUS . expression
     (6) expression -> . expression PLUS expression
@@ -566,13 +829,13 @@ state 29
     (21) expression -> . expression INFEG expression
     (22) expression -> . expression SUPFEG expression
 
-    LPAREN          shift and go to state 21
-    NUMBER          shift and go to state 22
-    NAME            shift and go to state 19
+    LPAREN          shift and go to state 27
+    NUMBER          shift and go to state 28
+    NAME            shift and go to state 25
 
-    expression                     shift and go to state 43
+    expression                     shift and go to state 53
 
-state 30
+state 40
 
     (8) expression -> expression TIMES . expression
     (6) expression -> . expression PLUS expression
@@ -588,13 +851,13 @@ state 30
     (21) expression -> . expression INFEG expression
     (22) expression -> . expression SUPFEG expression
 
-    LPAREN          shift and go to state 21
-    NUMBER          shift and go to state 22
-    NAME            shift and go to state 19
+    LPAREN          shift and go to state 27
+    NUMBER          shift and go to state 28
+    NAME            shift and go to state 25
 
-    expression                     shift and go to state 44
+    expression                     shift and go to state 54
 
-state 31
+state 41
 
     (9) expression -> expression DIVIDE . expression
     (6) expression -> . expression PLUS expression
@@ -610,13 +873,13 @@ state 31
     (21) expression -> . expression INFEG expression
     (22) expression -> . expression SUPFEG expression
 
-    LPAREN          shift and go to state 21
-    NUMBER          shift and go to state 22
-    NAME            shift and go to state 19
+    LPAREN          shift and go to state 27
+    NUMBER          shift and go to state 28
+    NAME            shift and go to state 25
 
-    expression                     shift and go to state 45
+    expression                     shift and go to state 55
 
-state 32
+state 42
 
     (18) expression -> expression EGALEGAL . expression
     (6) expression -> . expression PLUS expression
@@ -632,13 +895,13 @@ state 32
     (21) expression -> . expression INFEG expression
     (22) expression -> . expression SUPFEG expression
 
-    LPAREN          shift and go to state 21
-    NUMBER          shift and go to state 22
-    NAME            shift and go to state 19
+    LPAREN          shift and go to state 27
+    NUMBER          shift and go to state 28
+    NAME            shift and go to state 25
 
-    expression                     shift and go to state 46
+    expression                     shift and go to state 56
 
-state 33
+state 43
 
     (19) expression -> expression INF . expression
     (6) expression -> . expression PLUS expression
@@ -654,13 +917,13 @@ state 33
     (21) expression -> . expression INFEG expression
     (22) expression -> . expression SUPFEG expression
 
-    LPAREN          shift and go to state 21
-    NUMBER          shift and go to state 22
-    NAME            shift and go to state 19
+    LPAREN          shift and go to state 27
+    NUMBER          shift and go to state 28
+    NAME            shift and go to state 25
 
-    expression                     shift and go to state 47
+    expression                     shift and go to state 57
 
-state 34
+state 44
 
     (20) expression -> expression SUP . expression
     (6) expression -> . expression PLUS expression
@@ -676,13 +939,13 @@ state 34
     (21) expression -> . expression INFEG expression
     (22) expression -> . expression SUPFEG expression
 
-    LPAREN          shift and go to state 21
-    NUMBER          shift and go to state 22
-    NAME            shift and go to state 19
+    LPAREN          shift and go to state 27
+    NUMBER          shift and go to state 28
+    NAME            shift and go to state 25
 
-    expression                     shift and go to state 48
+    expression                     shift and go to state 58
 
-state 35
+state 45
 
     (21) expression -> expression INFEG . expression
     (6) expression -> . expression PLUS expression
@@ -698,13 +961,13 @@ state 35
     (21) expression -> . expression INFEG expression
     (22) expression -> . expression SUPFEG expression
 
-    LPAREN          shift and go to state 21
-    NUMBER          shift and go to state 22
-    NAME            shift and go to state 19
+    LPAREN          shift and go to state 27
+    NUMBER          shift and go to state 28
+    NAME            shift and go to state 25
 
-    expression                     shift and go to state 49
+    expression                     shift and go to state 59
 
-state 36
+state 46
 
     (22) expression -> expression SUPFEG . expression
     (6) expression -> . expression PLUS expression
@@ -720,13 +983,13 @@ state 36
     (21) expression -> . expression INFEG expression
     (22) expression -> . expression SUPFEG expression
 
-    LPAREN          shift and go to state 21
-    NUMBER          shift and go to state 22
-    NAME            shift and go to state 19
+    LPAREN          shift and go to state 27
+    NUMBER          shift and go to state 28
+    NAME            shift and go to state 25
 
-    expression                     shift and go to state 50
+    expression                     shift and go to state 60
 
-state 37
+state 47
 
     (10) expression -> LPAREN expression . RPAREN
     (6) expression -> expression . PLUS expression
@@ -739,19 +1002,19 @@ state 37
     (21) expression -> expression . INFEG expression
     (22) expression -> expression . SUPFEG expression
 
-    RPAREN          shift and go to state 51
-    PLUS            shift and go to state 28
-    MINUS           shift and go to state 29
-    TIMES           shift and go to state 30
-    DIVIDE          shift and go to state 31
-    EGALEGAL        shift and go to state 32
-    INF             shift and go to state 33
-    SUP             shift and go to state 34
-    INFEG           shift and go to state 35
-    SUPFEG          shift and go to state 36
+    RPAREN          shift and go to state 61
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    EGALEGAL        shift and go to state 42
+    INF             shift and go to state 43
+    SUP             shift and go to state 44
+    INFEG           shift and go to state 45
+    SUPFEG          shift and go to state 46
 
 
-state 38
+state 48
 
     (5) statement -> PRINT LPAREN expression RPAREN .
 
@@ -760,7 +1023,7 @@ state 38
     RPAREN          reduce using rule 5 (statement -> PRINT LPAREN expression RPAREN .)
 
 
-state 39
+state 49
 
     (14) statement -> IF LPAREN expression RPAREN . statement
     (15) statement -> IF LPAREN expression RPAREN . statement ELSE statement
@@ -771,6 +1034,12 @@ state 39
     (15) statement -> . IF LPAREN expression RPAREN statement ELSE statement
     (16) statement -> . WHILE LPAREN expression RPAREN statement
     (17) statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN statement
+    (23) statement -> . NAME PLUSPLUS
+    (24) statement -> . NAME MINUSMINUS
+    (25) statement -> . NAME PLUSEGAL expression
+    (26) statement -> . NAME MINUSEGAL expression
+    (27) statement -> . NAME TIMESEGAL expression
+    (28) statement -> . NAME DIVIDEEGAL expression
 
     NAME            shift and go to state 4
     PRINT           shift and go to state 5
@@ -779,9 +1048,9 @@ state 39
     WHILE           shift and go to state 8
     FOR             shift and go to state 9
 
-    statement                      shift and go to state 52
+    statement                      shift and go to state 62
 
-state 40
+state 50
 
     (16) statement -> WHILE LPAREN expression RPAREN . statement
     (4) statement -> . NAME EGAL expression
@@ -791,6 +1060,12 @@ state 40
     (15) statement -> . IF LPAREN expression RPAREN statement ELSE statement
     (16) statement -> . WHILE LPAREN expression RPAREN statement
     (17) statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN statement
+    (23) statement -> . NAME PLUSPLUS
+    (24) statement -> . NAME MINUSMINUS
+    (25) statement -> . NAME PLUSEGAL expression
+    (26) statement -> . NAME MINUSEGAL expression
+    (27) statement -> . NAME TIMESEGAL expression
+    (28) statement -> . NAME DIVIDEEGAL expression
 
     NAME            shift and go to state 4
     PRINT           shift and go to state 5
@@ -799,9 +1074,9 @@ state 40
     WHILE           shift and go to state 8
     FOR             shift and go to state 9
 
-    statement                      shift and go to state 53
+    statement                      shift and go to state 63
 
-state 41
+state 51
 
     (17) statement -> FOR LPAREN statement SEMICOLON . expression SEMICOLON statement RPAREN statement
     (6) expression -> . expression PLUS expression
@@ -817,13 +1092,13 @@ state 41
     (21) expression -> . expression INFEG expression
     (22) expression -> . expression SUPFEG expression
 
-    LPAREN          shift and go to state 21
-    NUMBER          shift and go to state 22
-    NAME            shift and go to state 19
+    LPAREN          shift and go to state 27
+    NUMBER          shift and go to state 28
+    NAME            shift and go to state 25
 
-    expression                     shift and go to state 54
+    expression                     shift and go to state 64
 
-state 42
+state 52
 
     (6) expression -> expression PLUS expression .
     (6) expression -> expression . PLUS expression
@@ -846,21 +1121,21 @@ state 42
     SEMICOLON       reduce using rule 6 (expression -> expression PLUS expression .)
     ELSE            reduce using rule 6 (expression -> expression PLUS expression .)
     RPAREN          reduce using rule 6 (expression -> expression PLUS expression .)
-    TIMES           shift and go to state 30
-    DIVIDE          shift and go to state 31
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
 
   ! TIMES           [ reduce using rule 6 (expression -> expression PLUS expression .) ]
   ! DIVIDE          [ reduce using rule 6 (expression -> expression PLUS expression .) ]
-  ! PLUS            [ shift and go to state 28 ]
-  ! MINUS           [ shift and go to state 29 ]
-  ! EGALEGAL        [ shift and go to state 32 ]
-  ! INF             [ shift and go to state 33 ]
-  ! SUP             [ shift and go to state 34 ]
-  ! INFEG           [ shift and go to state 35 ]
-  ! SUPFEG          [ shift and go to state 36 ]
+  ! PLUS            [ shift and go to state 38 ]
+  ! MINUS           [ shift and go to state 39 ]
+  ! EGALEGAL        [ shift and go to state 42 ]
+  ! INF             [ shift and go to state 43 ]
+  ! SUP             [ shift and go to state 44 ]
+  ! INFEG           [ shift and go to state 45 ]
+  ! SUPFEG          [ shift and go to state 46 ]
 
 
-state 43
+state 53
 
     (7) expression -> expression MINUS expression .
     (6) expression -> expression . PLUS expression
@@ -883,21 +1158,21 @@ state 43
     SEMICOLON       reduce using rule 7 (expression -> expression MINUS expression .)
     ELSE            reduce using rule 7 (expression -> expression MINUS expression .)
     RPAREN          reduce using rule 7 (expression -> expression MINUS expression .)
-    TIMES           shift and go to state 30
-    DIVIDE          shift and go to state 31
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
 
   ! TIMES           [ reduce using rule 7 (expression -> expression MINUS expression .) ]
   ! DIVIDE          [ reduce using rule 7 (expression -> expression MINUS expression .) ]
-  ! PLUS            [ shift and go to state 28 ]
-  ! MINUS           [ shift and go to state 29 ]
-  ! EGALEGAL        [ shift and go to state 32 ]
-  ! INF             [ shift and go to state 33 ]
-  ! SUP             [ shift and go to state 34 ]
-  ! INFEG           [ shift and go to state 35 ]
-  ! SUPFEG          [ shift and go to state 36 ]
+  ! PLUS            [ shift and go to state 38 ]
+  ! MINUS           [ shift and go to state 39 ]
+  ! EGALEGAL        [ shift and go to state 42 ]
+  ! INF             [ shift and go to state 43 ]
+  ! SUP             [ shift and go to state 44 ]
+  ! INFEG           [ shift and go to state 45 ]
+  ! SUPFEG          [ shift and go to state 46 ]
 
 
-state 44
+state 54
 
     (8) expression -> expression TIMES expression .
     (6) expression -> expression . PLUS expression
@@ -923,18 +1198,18 @@ state 44
     ELSE            reduce using rule 8 (expression -> expression TIMES expression .)
     RPAREN          reduce using rule 8 (expression -> expression TIMES expression .)
 
-  ! PLUS            [ shift and go to state 28 ]
-  ! MINUS           [ shift and go to state 29 ]
-  ! TIMES           [ shift and go to state 30 ]
-  ! DIVIDE          [ shift and go to state 31 ]
-  ! EGALEGAL        [ shift and go to state 32 ]
-  ! INF             [ shift and go to state 33 ]
-  ! SUP             [ shift and go to state 34 ]
-  ! INFEG           [ shift and go to state 35 ]
-  ! SUPFEG          [ shift and go to state 36 ]
+  ! PLUS            [ shift and go to state 38 ]
+  ! MINUS           [ shift and go to state 39 ]
+  ! TIMES           [ shift and go to state 40 ]
+  ! DIVIDE          [ shift and go to state 41 ]
+  ! EGALEGAL        [ shift and go to state 42 ]
+  ! INF             [ shift and go to state 43 ]
+  ! SUP             [ shift and go to state 44 ]
+  ! INFEG           [ shift and go to state 45 ]
+  ! SUPFEG          [ shift and go to state 46 ]
 
 
-state 45
+state 55
 
     (9) expression -> expression DIVIDE expression .
     (6) expression -> expression . PLUS expression
@@ -960,18 +1235,18 @@ state 45
     ELSE            reduce using rule 9 (expression -> expression DIVIDE expression .)
     RPAREN          reduce using rule 9 (expression -> expression DIVIDE expression .)
 
-  ! PLUS            [ shift and go to state 28 ]
-  ! MINUS           [ shift and go to state 29 ]
-  ! TIMES           [ shift and go to state 30 ]
-  ! DIVIDE          [ shift and go to state 31 ]
-  ! EGALEGAL        [ shift and go to state 32 ]
-  ! INF             [ shift and go to state 33 ]
-  ! SUP             [ shift and go to state 34 ]
-  ! INFEG           [ shift and go to state 35 ]
-  ! SUPFEG          [ shift and go to state 36 ]
+  ! PLUS            [ shift and go to state 38 ]
+  ! MINUS           [ shift and go to state 39 ]
+  ! TIMES           [ shift and go to state 40 ]
+  ! DIVIDE          [ shift and go to state 41 ]
+  ! EGALEGAL        [ shift and go to state 42 ]
+  ! INF             [ shift and go to state 43 ]
+  ! SUP             [ shift and go to state 44 ]
+  ! INFEG           [ shift and go to state 45 ]
+  ! SUPFEG          [ shift and go to state 46 ]
 
 
-state 46
+state 56
 
     (18) expression -> expression EGALEGAL expression .
     (6) expression -> expression . PLUS expression
@@ -996,15 +1271,15 @@ state 46
     SEMICOLON       reduce using rule 18 (expression -> expression EGALEGAL expression .)
     ELSE            reduce using rule 18 (expression -> expression EGALEGAL expression .)
     RPAREN          reduce using rule 18 (expression -> expression EGALEGAL expression .)
-    PLUS            shift and go to state 28
-    MINUS           shift and go to state 29
-    TIMES           shift and go to state 30
-    DIVIDE          shift and go to state 31
-    EGALEGAL        shift and go to state 32
-    INF             shift and go to state 33
-    SUP             shift and go to state 34
-    INFEG           shift and go to state 35
-    SUPFEG          shift and go to state 36
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    EGALEGAL        shift and go to state 42
+    INF             shift and go to state 43
+    SUP             shift and go to state 44
+    INFEG           shift and go to state 45
+    SUPFEG          shift and go to state 46
 
   ! PLUS            [ reduce using rule 18 (expression -> expression EGALEGAL expression .) ]
   ! MINUS           [ reduce using rule 18 (expression -> expression EGALEGAL expression .) ]
@@ -1017,7 +1292,7 @@ state 46
   ! SUPFEG          [ reduce using rule 18 (expression -> expression EGALEGAL expression .) ]
 
 
-state 47
+state 57
 
     (19) expression -> expression INF expression .
     (6) expression -> expression . PLUS expression
@@ -1042,15 +1317,15 @@ state 47
     SEMICOLON       reduce using rule 19 (expression -> expression INF expression .)
     ELSE            reduce using rule 19 (expression -> expression INF expression .)
     RPAREN          reduce using rule 19 (expression -> expression INF expression .)
-    PLUS            shift and go to state 28
-    MINUS           shift and go to state 29
-    TIMES           shift and go to state 30
-    DIVIDE          shift and go to state 31
-    EGALEGAL        shift and go to state 32
-    INF             shift and go to state 33
-    SUP             shift and go to state 34
-    INFEG           shift and go to state 35
-    SUPFEG          shift and go to state 36
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    EGALEGAL        shift and go to state 42
+    INF             shift and go to state 43
+    SUP             shift and go to state 44
+    INFEG           shift and go to state 45
+    SUPFEG          shift and go to state 46
 
   ! PLUS            [ reduce using rule 19 (expression -> expression INF expression .) ]
   ! MINUS           [ reduce using rule 19 (expression -> expression INF expression .) ]
@@ -1063,7 +1338,7 @@ state 47
   ! SUPFEG          [ reduce using rule 19 (expression -> expression INF expression .) ]
 
 
-state 48
+state 58
 
     (20) expression -> expression SUP expression .
     (6) expression -> expression . PLUS expression
@@ -1088,15 +1363,15 @@ state 48
     SEMICOLON       reduce using rule 20 (expression -> expression SUP expression .)
     ELSE            reduce using rule 20 (expression -> expression SUP expression .)
     RPAREN          reduce using rule 20 (expression -> expression SUP expression .)
-    PLUS            shift and go to state 28
-    MINUS           shift and go to state 29
-    TIMES           shift and go to state 30
-    DIVIDE          shift and go to state 31
-    EGALEGAL        shift and go to state 32
-    INF             shift and go to state 33
-    SUP             shift and go to state 34
-    INFEG           shift and go to state 35
-    SUPFEG          shift and go to state 36
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    EGALEGAL        shift and go to state 42
+    INF             shift and go to state 43
+    SUP             shift and go to state 44
+    INFEG           shift and go to state 45
+    SUPFEG          shift and go to state 46
 
   ! PLUS            [ reduce using rule 20 (expression -> expression SUP expression .) ]
   ! MINUS           [ reduce using rule 20 (expression -> expression SUP expression .) ]
@@ -1109,7 +1384,7 @@ state 48
   ! SUPFEG          [ reduce using rule 20 (expression -> expression SUP expression .) ]
 
 
-state 49
+state 59
 
     (21) expression -> expression INFEG expression .
     (6) expression -> expression . PLUS expression
@@ -1134,15 +1409,15 @@ state 49
     SEMICOLON       reduce using rule 21 (expression -> expression INFEG expression .)
     ELSE            reduce using rule 21 (expression -> expression INFEG expression .)
     RPAREN          reduce using rule 21 (expression -> expression INFEG expression .)
-    PLUS            shift and go to state 28
-    MINUS           shift and go to state 29
-    TIMES           shift and go to state 30
-    DIVIDE          shift and go to state 31
-    EGALEGAL        shift and go to state 32
-    INF             shift and go to state 33
-    SUP             shift and go to state 34
-    INFEG           shift and go to state 35
-    SUPFEG          shift and go to state 36
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    EGALEGAL        shift and go to state 42
+    INF             shift and go to state 43
+    SUP             shift and go to state 44
+    INFEG           shift and go to state 45
+    SUPFEG          shift and go to state 46
 
   ! PLUS            [ reduce using rule 21 (expression -> expression INFEG expression .) ]
   ! MINUS           [ reduce using rule 21 (expression -> expression INFEG expression .) ]
@@ -1155,7 +1430,7 @@ state 49
   ! SUPFEG          [ reduce using rule 21 (expression -> expression INFEG expression .) ]
 
 
-state 50
+state 60
 
     (22) expression -> expression SUPFEG expression .
     (6) expression -> expression . PLUS expression
@@ -1180,15 +1455,15 @@ state 50
     SEMICOLON       reduce using rule 22 (expression -> expression SUPFEG expression .)
     ELSE            reduce using rule 22 (expression -> expression SUPFEG expression .)
     RPAREN          reduce using rule 22 (expression -> expression SUPFEG expression .)
-    PLUS            shift and go to state 28
-    MINUS           shift and go to state 29
-    TIMES           shift and go to state 30
-    DIVIDE          shift and go to state 31
-    EGALEGAL        shift and go to state 32
-    INF             shift and go to state 33
-    SUP             shift and go to state 34
-    INFEG           shift and go to state 35
-    SUPFEG          shift and go to state 36
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    EGALEGAL        shift and go to state 42
+    INF             shift and go to state 43
+    SUP             shift and go to state 44
+    INFEG           shift and go to state 45
+    SUPFEG          shift and go to state 46
 
   ! PLUS            [ reduce using rule 22 (expression -> expression SUPFEG expression .) ]
   ! MINUS           [ reduce using rule 22 (expression -> expression SUPFEG expression .) ]
@@ -1201,7 +1476,7 @@ state 50
   ! SUPFEG          [ reduce using rule 22 (expression -> expression SUPFEG expression .) ]
 
 
-state 51
+state 61
 
     (10) expression -> LPAREN expression RPAREN .
 
@@ -1219,7 +1494,7 @@ state 51
     RPAREN          reduce using rule 10 (expression -> LPAREN expression RPAREN .)
 
 
-state 52
+state 62
 
     (14) statement -> IF LPAREN expression RPAREN statement .
     (15) statement -> IF LPAREN expression RPAREN statement . ELSE statement
@@ -1227,12 +1502,12 @@ state 52
   ! shift/reduce conflict for ELSE resolved as shift
     SEMICOLON       reduce using rule 14 (statement -> IF LPAREN expression RPAREN statement .)
     RPAREN          reduce using rule 14 (statement -> IF LPAREN expression RPAREN statement .)
-    ELSE            shift and go to state 55
+    ELSE            shift and go to state 65
 
   ! ELSE            [ reduce using rule 14 (statement -> IF LPAREN expression RPAREN statement .) ]
 
 
-state 53
+state 63
 
     (16) statement -> WHILE LPAREN expression RPAREN statement .
 
@@ -1241,7 +1516,7 @@ state 53
     RPAREN          reduce using rule 16 (statement -> WHILE LPAREN expression RPAREN statement .)
 
 
-state 54
+state 64
 
     (17) statement -> FOR LPAREN statement SEMICOLON expression . SEMICOLON statement RPAREN statement
     (6) expression -> expression . PLUS expression
@@ -1254,19 +1529,19 @@ state 54
     (21) expression -> expression . INFEG expression
     (22) expression -> expression . SUPFEG expression
 
-    SEMICOLON       shift and go to state 56
-    PLUS            shift and go to state 28
-    MINUS           shift and go to state 29
-    TIMES           shift and go to state 30
-    DIVIDE          shift and go to state 31
-    EGALEGAL        shift and go to state 32
-    INF             shift and go to state 33
-    SUP             shift and go to state 34
-    INFEG           shift and go to state 35
-    SUPFEG          shift and go to state 36
+    SEMICOLON       shift and go to state 66
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 39
+    TIMES           shift and go to state 40
+    DIVIDE          shift and go to state 41
+    EGALEGAL        shift and go to state 42
+    INF             shift and go to state 43
+    SUP             shift and go to state 44
+    INFEG           shift and go to state 45
+    SUPFEG          shift and go to state 46
 
 
-state 55
+state 65
 
     (15) statement -> IF LPAREN expression RPAREN statement ELSE . statement
     (4) statement -> . NAME EGAL expression
@@ -1276,6 +1551,12 @@ state 55
     (15) statement -> . IF LPAREN expression RPAREN statement ELSE statement
     (16) statement -> . WHILE LPAREN expression RPAREN statement
     (17) statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN statement
+    (23) statement -> . NAME PLUSPLUS
+    (24) statement -> . NAME MINUSMINUS
+    (25) statement -> . NAME PLUSEGAL expression
+    (26) statement -> . NAME MINUSEGAL expression
+    (27) statement -> . NAME TIMESEGAL expression
+    (28) statement -> . NAME DIVIDEEGAL expression
 
     NAME            shift and go to state 4
     PRINT           shift and go to state 5
@@ -1284,9 +1565,9 @@ state 55
     WHILE           shift and go to state 8
     FOR             shift and go to state 9
 
-    statement                      shift and go to state 57
+    statement                      shift and go to state 67
 
-state 56
+state 66
 
     (17) statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON . statement RPAREN statement
     (4) statement -> . NAME EGAL expression
@@ -1296,6 +1577,12 @@ state 56
     (15) statement -> . IF LPAREN expression RPAREN statement ELSE statement
     (16) statement -> . WHILE LPAREN expression RPAREN statement
     (17) statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN statement
+    (23) statement -> . NAME PLUSPLUS
+    (24) statement -> . NAME MINUSMINUS
+    (25) statement -> . NAME PLUSEGAL expression
+    (26) statement -> . NAME MINUSEGAL expression
+    (27) statement -> . NAME TIMESEGAL expression
+    (28) statement -> . NAME DIVIDEEGAL expression
 
     NAME            shift and go to state 4
     PRINT           shift and go to state 5
@@ -1304,9 +1591,9 @@ state 56
     WHILE           shift and go to state 8
     FOR             shift and go to state 9
 
-    statement                      shift and go to state 58
+    statement                      shift and go to state 68
 
-state 57
+state 67
 
     (15) statement -> IF LPAREN expression RPAREN statement ELSE statement .
 
@@ -1315,14 +1602,14 @@ state 57
     RPAREN          reduce using rule 15 (statement -> IF LPAREN expression RPAREN statement ELSE statement .)
 
 
-state 58
+state 68
 
     (17) statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement . RPAREN statement
 
-    RPAREN          shift and go to state 59
+    RPAREN          shift and go to state 69
 
 
-state 59
+state 69
 
     (17) statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN . statement
     (4) statement -> . NAME EGAL expression
@@ -1332,6 +1619,12 @@ state 59
     (15) statement -> . IF LPAREN expression RPAREN statement ELSE statement
     (16) statement -> . WHILE LPAREN expression RPAREN statement
     (17) statement -> . FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN statement
+    (23) statement -> . NAME PLUSPLUS
+    (24) statement -> . NAME MINUSMINUS
+    (25) statement -> . NAME PLUSEGAL expression
+    (26) statement -> . NAME MINUSEGAL expression
+    (27) statement -> . NAME TIMESEGAL expression
+    (28) statement -> . NAME DIVIDEEGAL expression
 
     NAME            shift and go to state 4
     PRINT           shift and go to state 5
@@ -1340,9 +1633,9 @@ state 59
     WHILE           shift and go to state 8
     FOR             shift and go to state 9
 
-    statement                      shift and go to state 60
+    statement                      shift and go to state 70
 
-state 60
+state 70
 
     (17) statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN statement .
 
@@ -1353,49 +1646,49 @@ state 60
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
-WARNING: shift/reduce conflict for PLUS in state 46 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 46 resolved as shift
-WARNING: shift/reduce conflict for TIMES in state 46 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 46 resolved as shift
-WARNING: shift/reduce conflict for EGALEGAL in state 46 resolved as shift
-WARNING: shift/reduce conflict for INF in state 46 resolved as shift
-WARNING: shift/reduce conflict for SUP in state 46 resolved as shift
-WARNING: shift/reduce conflict for INFEG in state 46 resolved as shift
-WARNING: shift/reduce conflict for SUPFEG in state 46 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 47 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 47 resolved as shift
-WARNING: shift/reduce conflict for TIMES in state 47 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 47 resolved as shift
-WARNING: shift/reduce conflict for EGALEGAL in state 47 resolved as shift
-WARNING: shift/reduce conflict for INF in state 47 resolved as shift
-WARNING: shift/reduce conflict for SUP in state 47 resolved as shift
-WARNING: shift/reduce conflict for INFEG in state 47 resolved as shift
-WARNING: shift/reduce conflict for SUPFEG in state 47 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 48 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 48 resolved as shift
-WARNING: shift/reduce conflict for TIMES in state 48 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 48 resolved as shift
-WARNING: shift/reduce conflict for EGALEGAL in state 48 resolved as shift
-WARNING: shift/reduce conflict for INF in state 48 resolved as shift
-WARNING: shift/reduce conflict for SUP in state 48 resolved as shift
-WARNING: shift/reduce conflict for INFEG in state 48 resolved as shift
-WARNING: shift/reduce conflict for SUPFEG in state 48 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 49 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 49 resolved as shift
-WARNING: shift/reduce conflict for TIMES in state 49 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 49 resolved as shift
-WARNING: shift/reduce conflict for EGALEGAL in state 49 resolved as shift
-WARNING: shift/reduce conflict for INF in state 49 resolved as shift
-WARNING: shift/reduce conflict for SUP in state 49 resolved as shift
-WARNING: shift/reduce conflict for INFEG in state 49 resolved as shift
-WARNING: shift/reduce conflict for SUPFEG in state 49 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 50 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 50 resolved as shift
-WARNING: shift/reduce conflict for TIMES in state 50 resolved as shift
-WARNING: shift/reduce conflict for DIVIDE in state 50 resolved as shift
-WARNING: shift/reduce conflict for EGALEGAL in state 50 resolved as shift
-WARNING: shift/reduce conflict for INF in state 50 resolved as shift
-WARNING: shift/reduce conflict for SUP in state 50 resolved as shift
-WARNING: shift/reduce conflict for INFEG in state 50 resolved as shift
-WARNING: shift/reduce conflict for SUPFEG in state 50 resolved as shift
-WARNING: shift/reduce conflict for ELSE in state 52 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 56 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 56 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 56 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 56 resolved as shift
+WARNING: shift/reduce conflict for EGALEGAL in state 56 resolved as shift
+WARNING: shift/reduce conflict for INF in state 56 resolved as shift
+WARNING: shift/reduce conflict for SUP in state 56 resolved as shift
+WARNING: shift/reduce conflict for INFEG in state 56 resolved as shift
+WARNING: shift/reduce conflict for SUPFEG in state 56 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 57 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 57 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 57 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 57 resolved as shift
+WARNING: shift/reduce conflict for EGALEGAL in state 57 resolved as shift
+WARNING: shift/reduce conflict for INF in state 57 resolved as shift
+WARNING: shift/reduce conflict for SUP in state 57 resolved as shift
+WARNING: shift/reduce conflict for INFEG in state 57 resolved as shift
+WARNING: shift/reduce conflict for SUPFEG in state 57 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 58 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 58 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 58 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 58 resolved as shift
+WARNING: shift/reduce conflict for EGALEGAL in state 58 resolved as shift
+WARNING: shift/reduce conflict for INF in state 58 resolved as shift
+WARNING: shift/reduce conflict for SUP in state 58 resolved as shift
+WARNING: shift/reduce conflict for INFEG in state 58 resolved as shift
+WARNING: shift/reduce conflict for SUPFEG in state 58 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 59 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 59 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 59 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 59 resolved as shift
+WARNING: shift/reduce conflict for EGALEGAL in state 59 resolved as shift
+WARNING: shift/reduce conflict for INF in state 59 resolved as shift
+WARNING: shift/reduce conflict for SUP in state 59 resolved as shift
+WARNING: shift/reduce conflict for INFEG in state 59 resolved as shift
+WARNING: shift/reduce conflict for SUPFEG in state 59 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 60 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 60 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 60 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 60 resolved as shift
+WARNING: shift/reduce conflict for EGALEGAL in state 60 resolved as shift
+WARNING: shift/reduce conflict for INF in state 60 resolved as shift
+WARNING: shift/reduce conflict for SUP in state 60 resolved as shift
+WARNING: shift/reduce conflict for INFEG in state 60 resolved as shift
+WARNING: shift/reduce conflict for SUPFEG in state 60 resolved as shift
+WARNING: shift/reduce conflict for ELSE in state 62 resolved as shift
