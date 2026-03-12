@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'leftPLUSMINUSleftTIMESDIVIDEASSIGN DIVIDE LPAREN MINUS NAME NUMBER PLUS PRINT RPAREN SEMICOLON TIMESstart : blocbloc : bloc statement SEMICOLON\n| statement SEMICOLONstatement : NAME ASSIGN expressionstatement : PRINT LPAREN expression RPARENexpression : expression PLUS expressionexpression : expression MINUS expressionexpression : expression TIMES expressionexpression : expression DIVIDE expressionexpression : LPAREN expression RPARENexpression : NUMBERexpression : NAME'
+_lr_signature = 'leftPLUSMINUSleftTIMESDIVIDEASSIGN DIVIDE EGALEGAL ELIF ELSE FOR IF INF INFEG LACC LPAREN MINUS NAME NUMBER PLUS PRINT RACC RPAREN SEMICOLON SUP SUPFEG TIMES WHILEstart : blocbloc : bloc statement SEMICOLON\n    | statement SEMICOLONstatement : NAME ASSIGN expressionstatement : PRINT LPAREN expression RPARENexpression : expression PLUS expressionexpression : expression MINUS expressionexpression : expression TIMES expressionexpression : expression DIVIDE expressionexpression : LPAREN expression RPARENexpression : NUMBERexpression : NAMEstatement : LACC bloc RACCstatement : IF LPAREN expression RPAREN statement \n    | IF LPAREN expression RPAREN statement ELSE statementstatement : WHILE LPAREN expression RPAREN statementstatement : FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN statementexpression : expression EGALEGAL expressionexpression : expression INF expressionexpression : expression SUP expressionexpression : expression INFEG expressionexpression : expression SUPFEG expression'
     
-_lr_action_items = {'NAME':([0,2,7,8,9,10,13,16,17,18,19,],[4,4,-3,11,11,-2,11,11,11,11,11,]),'PRINT':([0,2,7,10,],[5,5,-3,-2,]),'$end':([1,2,7,10,],[0,-1,-3,-2,]),'SEMICOLON':([3,6,11,12,14,21,22,23,24,25,26,],[7,10,-12,-4,-11,-5,-6,-7,-8,-9,-10,]),'ASSIGN':([4,],[8,]),'LPAREN':([5,8,9,13,16,17,18,19,],[9,13,13,13,13,13,13,13,]),'NUMBER':([8,9,13,16,17,18,19,],[14,14,14,14,14,14,14,]),'PLUS':([11,12,14,15,20,22,23,24,25,26,],[-12,16,-11,16,16,-6,-7,-8,-9,-10,]),'MINUS':([11,12,14,15,20,22,23,24,25,26,],[-12,17,-11,17,17,-6,-7,-8,-9,-10,]),'TIMES':([11,12,14,15,20,22,23,24,25,26,],[-12,18,-11,18,18,18,18,-8,-9,-10,]),'DIVIDE':([11,12,14,15,20,22,23,24,25,26,],[-12,19,-11,19,19,19,19,-8,-9,-10,]),'RPAREN':([11,14,15,20,22,23,24,25,26,],[-12,-11,21,26,-6,-7,-8,-9,-10,]),}
+_lr_action_items = {'NAME':([0,2,6,11,12,13,14,15,16,17,18,21,28,29,30,31,32,33,34,35,36,39,40,41,55,56,59,],[4,4,4,-3,19,19,4,19,19,4,-2,19,19,19,19,19,19,19,19,19,19,4,4,19,4,4,4,]),'PRINT':([0,2,6,11,14,17,18,39,40,55,56,59,],[5,5,5,-3,5,5,-2,5,5,5,5,5,]),'LACC':([0,2,6,11,14,17,18,39,40,55,56,59,],[6,6,6,-3,6,6,-2,6,6,6,6,6,]),'IF':([0,2,6,11,14,17,18,39,40,55,56,59,],[7,7,7,-3,7,7,-2,7,7,7,7,7,]),'WHILE':([0,2,6,11,14,17,18,39,40,55,56,59,],[8,8,8,-3,8,8,-2,8,8,8,8,8,]),'FOR':([0,2,6,11,14,17,18,39,40,55,56,59,],[9,9,9,-3,9,9,-2,9,9,9,9,9,]),'$end':([1,2,11,18,],[0,-1,-3,-2,]),'SEMICOLON':([3,10,19,20,22,24,27,38,42,43,44,45,46,47,48,49,50,51,52,53,54,57,60,],[11,18,-12,-4,-11,-13,41,-5,-6,-7,-8,-9,-18,-19,-20,-21,-22,-10,-14,-16,56,-15,-17,]),'ASSIGN':([4,],[12,]),'LPAREN':([5,7,8,9,12,13,15,16,21,28,29,30,31,32,33,34,35,36,41,],[13,15,16,17,21,21,21,21,21,21,21,21,21,21,21,21,21,21,21,]),'RACC':([11,14,18,],[-3,24,-2,]),'NUMBER':([12,13,15,16,21,28,29,30,31,32,33,34,35,36,41,],[22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,]),'PLUS':([19,20,22,23,25,26,37,42,43,44,45,46,47,48,49,50,51,54,],[-12,28,-11,28,28,28,28,-6,-7,-8,-9,28,28,28,28,28,-10,28,]),'MINUS':([19,20,22,23,25,26,37,42,43,44,45,46,47,48,49,50,51,54,],[-12,29,-11,29,29,29,29,-6,-7,-8,-9,29,29,29,29,29,-10,29,]),'TIMES':([19,20,22,23,25,26,37,42,43,44,45,46,47,48,49,50,51,54,],[-12,30,-11,30,30,30,30,30,30,-8,-9,30,30,30,30,30,-10,30,]),'DIVIDE':([19,20,22,23,25,26,37,42,43,44,45,46,47,48,49,50,51,54,],[-12,31,-11,31,31,31,31,31,31,-8,-9,31,31,31,31,31,-10,31,]),'EGALEGAL':([19,20,22,23,25,26,37,42,43,44,45,46,47,48,49,50,51,54,],[-12,32,-11,32,32,32,32,-6,-7,-8,-9,32,32,32,32,32,-10,32,]),'INF':([19,20,22,23,25,26,37,42,43,44,45,46,47,48,49,50,51,54,],[-12,33,-11,33,33,33,33,-6,-7,-8,-9,33,33,33,33,33,-10,33,]),'SUP':([19,20,22,23,25,26,37,42,43,44,45,46,47,48,49,50,51,54,],[-12,34,-11,34,34,34,34,-6,-7,-8,-9,34,34,34,34,34,-10,34,]),'INFEG':([19,20,22,23,25,26,37,42,43,44,45,46,47,48,49,50,51,54,],[-12,35,-11,35,35,35,35,-6,-7,-8,-9,35,35,35,35,35,-10,35,]),'SUPFEG':([19,20,22,23,25,26,37,42,43,44,45,46,47,48,49,50,51,54,],[-12,36,-11,36,36,36,36,-6,-7,-8,-9,36,36,36,36,36,-10,36,]),'ELSE':([19,20,22,24,38,42,43,44,45,46,47,48,49,50,51,52,53,57,60,],[-12,-4,-11,-13,-5,-6,-7,-8,-9,-18,-19,-20,-21,-22,-10,55,-16,-15,-17,]),'RPAREN':([19,20,22,23,24,25,26,37,38,42,43,44,45,46,47,48,49,50,51,52,53,57,58,60,],[-12,-4,-11,38,-13,39,40,51,-5,-6,-7,-8,-9,-18,-19,-20,-21,-22,-10,-14,-16,-15,59,-17,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'start':([0,],[1,]),'bloc':([0,],[2,]),'statement':([0,2,],[3,6,]),'expression':([8,9,13,16,17,18,19,],[12,15,20,22,23,24,25,]),}
+_lr_goto_items = {'start':([0,],[1,]),'bloc':([0,6,],[2,14,]),'statement':([0,2,6,14,17,39,40,55,56,59,],[3,10,3,10,27,52,53,57,58,60,]),'expression':([12,13,15,16,21,28,29,30,31,32,33,34,35,36,41,],[20,23,25,26,37,42,43,44,45,46,47,48,49,50,54,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,16 +27,26 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> start","S'",1,None,None,None),
-  ('start -> bloc','start',1,'p_start','main.py',57),
-  ('bloc -> bloc statement SEMICOLON','bloc',3,'p_bloc','main.py',61),
-  ('bloc -> statement SEMICOLON','bloc',2,'p_bloc','main.py',62),
-  ('statement -> NAME ASSIGN expression','statement',3,'p_statement_assign','main.py',69),
-  ('statement -> PRINT LPAREN expression RPAREN','statement',4,'p_statement_print','main.py',73),
-  ('expression -> expression PLUS expression','expression',3,'p_expression_binop_plus','main.py',77),
-  ('expression -> expression MINUS expression','expression',3,'p_expression_binop_minus','main.py',81),
-  ('expression -> expression TIMES expression','expression',3,'p_expression_binop_times','main.py',85),
-  ('expression -> expression DIVIDE expression','expression',3,'p_expression_binop_divide','main.py',89),
-  ('expression -> LPAREN expression RPAREN','expression',3,'p_expression_group','main.py',93),
-  ('expression -> NUMBER','expression',1,'p_expression_number','main.py',97),
-  ('expression -> NAME','expression',1,'p_expression_var','main.py',101),
+  ('start -> bloc','start',1,'p_start','main.py',70),
+  ('bloc -> bloc statement SEMICOLON','bloc',3,'p_bloc','main.py',74),
+  ('bloc -> statement SEMICOLON','bloc',2,'p_bloc','main.py',75),
+  ('statement -> NAME ASSIGN expression','statement',3,'p_statement_assign','main.py',82),
+  ('statement -> PRINT LPAREN expression RPAREN','statement',4,'p_statement_print','main.py',86),
+  ('expression -> expression PLUS expression','expression',3,'p_expression_binop_plus','main.py',90),
+  ('expression -> expression MINUS expression','expression',3,'p_expression_binop_minus','main.py',94),
+  ('expression -> expression TIMES expression','expression',3,'p_expression_binop_times','main.py',98),
+  ('expression -> expression DIVIDE expression','expression',3,'p_expression_binop_divide','main.py',102),
+  ('expression -> LPAREN expression RPAREN','expression',3,'p_expression_group','main.py',106),
+  ('expression -> NUMBER','expression',1,'p_expression_number','main.py',110),
+  ('expression -> NAME','expression',1,'p_expression_var','main.py',114),
+  ('statement -> LACC bloc RACC','statement',3,'p_statement_group','main.py',121),
+  ('statement -> IF LPAREN expression RPAREN statement','statement',5,'p_statement_if','main.py',125),
+  ('statement -> IF LPAREN expression RPAREN statement ELSE statement','statement',7,'p_statement_if','main.py',126),
+  ('statement -> WHILE LPAREN expression RPAREN statement','statement',5,'p_statement_while','main.py',133),
+  ('statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN statement','statement',9,'p_statement_for','main.py',137),
+  ('expression -> expression EGALEGAL expression','expression',3,'p_expression_compare_egalegal','main.py',141),
+  ('expression -> expression INF expression','expression',3,'p_expression_compare_inf','main.py',145),
+  ('expression -> expression SUP expression','expression',3,'p_expression_compare_sup','main.py',149),
+  ('expression -> expression INFEG expression','expression',3,'p_expression_compare_infeg','main.py',153),
+  ('expression -> expression SUPFEG expression','expression',3,'p_expression_compare_supfeg','main.py',157),
 ]

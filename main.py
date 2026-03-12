@@ -1,8 +1,13 @@
 import ply.lex as lex
 import ply.yacc as yacc
-
+from genereTreeGraphviz2 import printTreeGraph
 reserved = {
-    'print': 'PRINT'
+    'print': 'PRINT',
+    'if': 'IF',
+    'else': 'ELSE',
+    'elif': 'ELIF',
+    'for': 'FOR',
+    'while': 'WHILE'
 }
 
 #----------
@@ -11,7 +16,8 @@ reserved = {
 
 tokens = [
     'NUMBER','NAME','PLUS', 'MINUS', 'TIMES', 'DIVIDE',
-    'ASSIGN','LPAREN', 'RPAREN','SEMICOLON'
+    'ASSIGN','LPAREN', 'RPAREN','SEMICOLON',
+    'EGALEGAL', 'INF', 'SUP', 'INFEG', 'SUPFEG','LACC', 'RACC'
 ]+ list(reserved.values())
 
 t_PLUS      = r'\+'
@@ -22,6 +28,13 @@ t_ASSIGN    = r'='
 t_LPAREN    = r'\('
 t_RPAREN    = r'\)'
 t_SEMICOLON = r';'
+t_EGALEGAL   = r'\=='
+t_INF       = r'<'
+t_SUP       = r'>'
+t_INFEG     = r'<='
+t_SUPFEG    = r'>='
+t_LACC      = r'\{'
+t_RACC      = r'\}'
 t_ignore    = ' \t'
 
 def t_NAME(t):
@@ -103,14 +116,58 @@ def p_expression_var(p):
     
 def p_error(p):
     print("Erreur de syntaxe")
+    
+def p_statement_group(p):
+    'statement : LACC bloc RACC'
+    p[0] = p[2]
 
+def p_statement_if(p):
+    '''statement : IF LPAREN expression RPAREN statement 
+    | IF LPAREN expression RPAREN statement ELSE statement'''
+    if len(p) == 6:
+        p[0] = ('if', p[3], p[5], 'empty')
+    else:
+        p[0] = ('if', p[3], p[5], p[7])
 
-# Fonction Eval
+def p_statement_while(p):
+    'statement : WHILE LPAREN expression RPAREN statement'
+    p[0] = ('while', p[3], p[5])
+    
+def p_statement_for(p):
+    'statement : FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN statement'
+    p[0] = ('for', p[3], p[5], p[7], p[9])
+
+def p_expression_compare_egalegal(p):
+    'expression : expression EGALEGAL expression'
+    p[0] = ('==', p[1], p[3])
+
+def p_expression_compare_inf(p):
+    'expression : expression INF expression'
+    p[0] = ('<', p[1], p[3])
+
+def p_expression_compare_sup(p):
+    'expression : expression SUP expression'
+    p[0] = ('>', p[1], p[3])
+
+def p_expression_compare_infeg(p):
+    'expression : expression INFEG expression'
+    p[0] = ('<=', p[1], p[3])
+    
+def p_expression_compare_supfeg(p):
+    'expression : expression SUPFEG expression'
+    p[0] = ('>=', p[1], p[3])
+
+    
+
+#---------
+#--EVAL---
+#---------
  
 variables = {}
 
 def evalInst(t):
-    if t == 'empty': return
+    if t == 'empty': 
+        return
     assert type(t) is tuple
     
     if t[0] == 'bloc':
@@ -122,12 +179,31 @@ def evalInst(t):
         
     if t[0] == 'print': 
         print('CALC>', evalExpr(t[1]))
+        
+    if t[0] == 'if':
+        if evalExpr(t[1]):
+            evalInst(t[2])
+        else:
+            evalInst(t[3])
+    
+    if t[0] == 'while':
+        while evalExpr(t[1]):
+            evalInst(t[2])
+    
+    if t[0] == 'for':
+        evalInst(t[1])
+        while evalExpr(t[2]):
+            evalInst(t[4])
+            evalInst(t[3])
+        
 
 def evalExpr(t):
-    if type(t) is int or type(t) is float: 
+    if type(t) == int: 
+        return t
+    if type(t) == float:
         return t
         
-    if type(t) is tuple: 
+    if type(t) == tuple: 
         if t[0] == 'var':
             return variables.get(t[1], 0)
             
@@ -135,17 +211,35 @@ def evalExpr(t):
         if t[0] == '-': return evalExpr(t[1]) - evalExpr(t[2])
         if t[0] == '*': return evalExpr(t[1]) * evalExpr(t[2])
         if t[0] == '/': return evalExpr(t[1]) / evalExpr(t[2])
+        if t[0] == '==': return evalExpr(t[1]) == evalExpr(t[2])
+        if t[0] == '<': return evalExpr(t[1]) < evalExpr(t[2])
+        if t[0] == '>': return evalExpr(t[1]) > evalExpr(t[2])
+        if t[0] == '<=': return evalExpr(t[1]) <= evalExpr(t[2])
+        if t[0] == '>=': return evalExpr(t[1]) >= evalExpr(t[2])
+        
         
     return 0
 
 #--------------
 #--TEST CODE---
 #--------------
-
-# s1 : affectation, print
-s1='x=4;x=x+3;print(x);' 
-
+s1='x=4;x=x+3;print(x);'
+s3='''x=4;
+    while(x<30){
+        x=x+3;
+        print(x);
+    }; 
+    for(i=0 ;i<4 ;i=i+1){
+        print(i*i);
+    };'''
 parser = yacc.yacc()
+print("TEST 1 : ", s1) 
 ast = parser.parse(s1)
-print(ast)
-evalInst(ast) 
+printTreeGraph(ast)
+evalInst(ast)
+
+
+print("TEST 3 : ", s3)
+ast = parser.parse(s3)
+printTreeGraph(ast)
+evalInst(ast)
