@@ -16,7 +16,7 @@ reserved = {
 
 tokens = [
     'NUMBER','NAME','PLUS', 'MINUS', 'TIMES', 'DIVIDE',
-    'ASSIGN','LPAREN', 'RPAREN','SEMICOLON',
+    'EGAL','LPAREN', 'RPAREN','SEMICOLON',
     'EGALEGAL', 'INF', 'SUP', 'INFEG', 'SUPFEG','LACC', 'RACC'
 ]+ list(reserved.values())
 
@@ -24,7 +24,7 @@ t_PLUS      = r'\+'
 t_MINUS     = r'-'
 t_TIMES     = r'\*'
 t_DIVIDE    = r'/'
-t_ASSIGN    = r'='
+t_EGAL    = r'='
 t_LPAREN    = r'\('
 t_RPAREN    = r'\)'
 t_SEMICOLON = r';'
@@ -78,9 +78,9 @@ def p_bloc(p):
     else:
         p[0] = ('bloc','empty',p[1])
         
-def p_statement_assign(p):
-    'statement : NAME ASSIGN expression'
-    p[0] = ('assign',p[1],p[3])
+def p_statement_egal(p):
+    'statement : NAME EGAL expression'
+    p[0] = ('egal',p[1],p[3])
     
 def p_statement_print(p):
     'statement : PRINT LPAREN expression RPAREN'
@@ -174,7 +174,7 @@ def evalInst(t):
         evalInst(t[1])
         evalInst(t[2])
         
-    if t[0] == 'assign':
+    if t[0] == 'egal':
         variables[t[1]] = evalExpr(t[2])
         
     if t[0] == 'print': 

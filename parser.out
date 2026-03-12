@@ -10,7 +10,7 @@ Rule 0     S' -> start
 Rule 1     start -> bloc
 Rule 2     bloc -> bloc statement SEMICOLON
 Rule 3     bloc -> statement SEMICOLON
-Rule 4     statement -> NAME ASSIGN expression
+Rule 4     statement -> NAME EGAL expression
 Rule 5     statement -> PRINT LPAREN expression RPAREN
 Rule 6     expression -> expression PLUS expression
 Rule 7     expression -> expression MINUS expression
@@ -32,8 +32,8 @@ Rule 22    expression -> expression SUPFEG expression
 
 Terminals, with rules where they appear
 
-ASSIGN               : 4
 DIVIDE               : 9
+EGAL                 : 4
 EGALEGAL             : 18
 ELIF                 : 
 ELSE                 : 15
@@ -72,7 +72,7 @@ state 0
     (1) start -> . bloc
     (2) bloc -> . bloc statement SEMICOLON
     (3) bloc -> . statement SEMICOLON
-    (4) statement -> . NAME ASSIGN expression
+    (4) statement -> . NAME EGAL expression
     (5) statement -> . PRINT LPAREN expression RPAREN
     (13) statement -> . LACC bloc RACC
     (14) statement -> . IF LPAREN expression RPAREN statement
@@ -101,7 +101,7 @@ state 2
 
     (1) start -> bloc .
     (2) bloc -> bloc . statement SEMICOLON
-    (4) statement -> . NAME ASSIGN expression
+    (4) statement -> . NAME EGAL expression
     (5) statement -> . PRINT LPAREN expression RPAREN
     (13) statement -> . LACC bloc RACC
     (14) statement -> . IF LPAREN expression RPAREN statement
@@ -128,9 +128,9 @@ state 3
 
 state 4
 
-    (4) statement -> NAME . ASSIGN expression
+    (4) statement -> NAME . EGAL expression
 
-    ASSIGN          shift and go to state 12
+    EGAL            shift and go to state 12
 
 
 state 5
@@ -145,7 +145,7 @@ state 6
     (13) statement -> LACC . bloc RACC
     (2) bloc -> . bloc statement SEMICOLON
     (3) bloc -> . statement SEMICOLON
-    (4) statement -> . NAME ASSIGN expression
+    (4) statement -> . NAME EGAL expression
     (5) statement -> . PRINT LPAREN expression RPAREN
     (13) statement -> . LACC bloc RACC
     (14) statement -> . IF LPAREN expression RPAREN statement
@@ -208,7 +208,7 @@ state 11
 
 state 12
 
-    (4) statement -> NAME ASSIGN . expression
+    (4) statement -> NAME EGAL . expression
     (6) expression -> . expression PLUS expression
     (7) expression -> . expression MINUS expression
     (8) expression -> . expression TIMES expression
@@ -254,7 +254,7 @@ state 14
 
     (13) statement -> LACC bloc . RACC
     (2) bloc -> bloc . statement SEMICOLON
-    (4) statement -> . NAME ASSIGN expression
+    (4) statement -> . NAME EGAL expression
     (5) statement -> . PRINT LPAREN expression RPAREN
     (13) statement -> . LACC bloc RACC
     (14) statement -> . IF LPAREN expression RPAREN statement
@@ -320,7 +320,7 @@ state 16
 state 17
 
     (17) statement -> FOR LPAREN . statement SEMICOLON expression SEMICOLON statement RPAREN statement
-    (4) statement -> . NAME ASSIGN expression
+    (4) statement -> . NAME EGAL expression
     (5) statement -> . PRINT LPAREN expression RPAREN
     (13) statement -> . LACC bloc RACC
     (14) statement -> . IF LPAREN expression RPAREN statement
@@ -371,7 +371,7 @@ state 19
 
 state 20
 
-    (4) statement -> NAME ASSIGN expression .
+    (4) statement -> NAME EGAL expression .
     (6) expression -> expression . PLUS expression
     (7) expression -> expression . MINUS expression
     (8) expression -> expression . TIMES expression
@@ -382,9 +382,9 @@ state 20
     (21) expression -> expression . INFEG expression
     (22) expression -> expression . SUPFEG expression
 
-    SEMICOLON       reduce using rule 4 (statement -> NAME ASSIGN expression .)
-    ELSE            reduce using rule 4 (statement -> NAME ASSIGN expression .)
-    RPAREN          reduce using rule 4 (statement -> NAME ASSIGN expression .)
+    SEMICOLON       reduce using rule 4 (statement -> NAME EGAL expression .)
+    ELSE            reduce using rule 4 (statement -> NAME EGAL expression .)
+    RPAREN          reduce using rule 4 (statement -> NAME EGAL expression .)
     PLUS            shift and go to state 28
     MINUS           shift and go to state 29
     TIMES           shift and go to state 30
@@ -764,7 +764,7 @@ state 39
 
     (14) statement -> IF LPAREN expression RPAREN . statement
     (15) statement -> IF LPAREN expression RPAREN . statement ELSE statement
-    (4) statement -> . NAME ASSIGN expression
+    (4) statement -> . NAME EGAL expression
     (5) statement -> . PRINT LPAREN expression RPAREN
     (13) statement -> . LACC bloc RACC
     (14) statement -> . IF LPAREN expression RPAREN statement
@@ -784,7 +784,7 @@ state 39
 state 40
 
     (16) statement -> WHILE LPAREN expression RPAREN . statement
-    (4) statement -> . NAME ASSIGN expression
+    (4) statement -> . NAME EGAL expression
     (5) statement -> . PRINT LPAREN expression RPAREN
     (13) statement -> . LACC bloc RACC
     (14) statement -> . IF LPAREN expression RPAREN statement
@@ -1269,7 +1269,7 @@ state 54
 state 55
 
     (15) statement -> IF LPAREN expression RPAREN statement ELSE . statement
-    (4) statement -> . NAME ASSIGN expression
+    (4) statement -> . NAME EGAL expression
     (5) statement -> . PRINT LPAREN expression RPAREN
     (13) statement -> . LACC bloc RACC
     (14) statement -> . IF LPAREN expression RPAREN statement
@@ -1289,7 +1289,7 @@ state 55
 state 56
 
     (17) statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON . statement RPAREN statement
-    (4) statement -> . NAME ASSIGN expression
+    (4) statement -> . NAME EGAL expression
     (5) statement -> . PRINT LPAREN expression RPAREN
     (13) statement -> . LACC bloc RACC
     (14) statement -> . IF LPAREN expression RPAREN statement
@@ -1325,7 +1325,7 @@ state 58
 state 59
 
     (17) statement -> FOR LPAREN statement SEMICOLON expression SEMICOLON statement RPAREN . statement
-    (4) statement -> . NAME ASSIGN expression
+    (4) statement -> . NAME EGAL expression
     (5) statement -> . PRINT LPAREN expression RPAREN
     (13) statement -> . LACC bloc RACC
     (14) statement -> . IF LPAREN expression RPAREN statement
